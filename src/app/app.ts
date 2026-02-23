@@ -30,6 +30,9 @@ export class App {
   }
 
   resultClicked(result: ImageMetadata) {
-    this.dialog.open(ImageViewerComponent, {data: {imageMetadata: result}});
+    this.dialog.open(ImageViewerComponent, {
+      data: {imageMetadata: result},
+      disableClose: true,
+    });
   }
 }
