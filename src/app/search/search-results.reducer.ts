@@ -1,6 +1,6 @@
-import {ImageMetadata} from './image.type';
 import {createReducer, on} from '@ngrx/store';
 import {queryChanged, searchImagesFail, searchImagesSuccess} from './search.actions';
+import {ImageMetadata} from '../image-metadata.type';
 
 export interface SearchResultsState {
   isLoading: boolean;

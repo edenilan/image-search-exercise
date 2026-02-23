@@ -1,6 +1,18 @@
 <div class="api-key-container">
-  <input class="api-key-input" type="text" placeholder="what's your api key?">
+  <debounced-input (value)="onTokenInput($event)"
+                   [placeholder]="'what\'s your api key?'">
+  </debounced-input>
 </div>
+
 <div class="search-container">
-  <search (query)="onQueryChange($event)"></search>
+  <debounced-input (value)="onQueryChange($event)"
+                   [placeholder]="'what are looking for?'">
+  </debounced-input>
 </div>
+
+
+@for (result of searchResults(); track result.id) {
+  <div>
+    <img [src]="result.previewURL">
+  </div>
+}

@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {ImageMetadata} from './image.type';
+import {ImageMetadata} from '../image-metadata.type';
 
 export const queryChanged = createAction(
   '[Search] Query Changed]',
