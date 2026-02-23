@@ -9,7 +9,7 @@ import {debounceTime, fromEvent, map, switchMap} from 'rxjs';
   templateUrl: './debounced-input.component.html',
   styleUrl: './debounced-input.component.scss'
 })
-export class DebouncedInput {
+export class DebouncedInputComponent {
   public placeholder = input.required();
 
   private inputElement = viewChild.required<ElementRef<HTMLInputElement>>('inputElement');
