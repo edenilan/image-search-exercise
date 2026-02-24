@@ -230,6 +230,10 @@ export class ImageViewerComponent implements AfterViewInit{
   }
 
   closeDialog() {
-    this.dialogRef.close({annotations: this.annotations});
+    const filteredAnnotations = this.annotations.filter(annotation => {
+      const points = annotation.points ?? [];
+      return points.length > 0;
+    });
+    this.dialogRef.close({annotations: filteredAnnotations});
   }
 }
