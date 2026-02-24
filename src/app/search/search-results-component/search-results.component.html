@@ -1,0 +1,16 @@
+
+<div class="results-container">
+  @if (isEmptyState()) {
+    <h2 class="empty-state-message">Nope, try again</h2>
+  }
+  <cdk-virtual-scroll-viewport itemSize="100">
+    <div *cdkVirtualFor="let result of dataSourceService; trackBy: trackByResultId"  class="image-thumbnail-container">
+      <div (click)="onResultClicked(result)">
+        <img [src]="result.previewURL">
+        @if (result.annotations != null && result.annotations.length > 0) {
+          <span class="has-annotation-indicator">✎ annotated</span>
+        }
+      </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>

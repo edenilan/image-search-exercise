@@ -55,6 +55,10 @@ export class ImageViewerComponent implements AfterViewInit{
     });
 
     this.layer = new Konva.Layer();
+
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.closeDialog();
+    })
   }
   ngAfterViewInit(): void {
     this.setupStage();

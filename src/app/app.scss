@@ -13,39 +13,6 @@ input {
   width: 400px;
 }
 
-.results-container {
-  flex: 1;
-  width: 100%;
-
-  img {
-    cursor: pointer;
-    height: 100px;
-  }
-}
-
-cdk-virtual-scroll-viewport {
-  height: 100%;
-}
-
-.image-thumbnail-container {
-  display: flex;
-  justify-content: center;
-  margin: 10px;
-  position: relative;
-
-  .has-annotation-indicator {
-    position: absolute;
-    bottom: 5px;
-    padding: 0 5px;
-    background-color: white;
-    border-radius: 8px;
-    font-size: 12px;
-    line-height: 12px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    transform: translate(-10px, -10px);
-  }
-}
-
 .header {
   box-shadow: 0 0 60px rgba(0, 0, 0, .12);
   display: flex;
@@ -53,7 +20,3 @@ cdk-virtual-scroll-viewport {
   align-items: center;
 }
 
-.empty-state-message {
-  color: gray;
-  text-align: center;
-}

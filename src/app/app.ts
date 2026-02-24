@@ -1,4 +1,13 @@
-import {Component, computed, effect, ElementRef, inject, signal, viewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  signal,
+  viewChild
+} from '@angular/core';
 import {DebouncedInputComponent} from './debounced-input/debounced-input.component';
 import {Store} from '@ngrx/store';
 import {queryChanged} from './search/search.actions';
@@ -8,23 +17,22 @@ import {DialogData, ImageViewerComponent} from './image-viewer/image-viewer.comp
 import {AnnotatedImageMetadata} from './image-metadata.type';
 import {annotationsUpdatedForImage} from './annotations/annotations.actions';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import {ImageResultsDataSourceService} from './image-results-data-source.service';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {debounceTime} from 'rxjs';
 import {selectSearchHistoryState} from './search/search.selectors';
+import {SearchResultsComponent} from './search/search-results-component/search-results.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  imports: [DebouncedInputComponent, ScrollingModule, MatAutocompleteModule]
+  imports: [DebouncedInputComponent, ScrollingModule, MatAutocompleteModule, SearchResultsComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
   private store = inject(Store);
   private apiTokenService = inject(ApiTokenService);
-  protected dataSourceService = new ImageResultsDataSourceService();
-  protected isEmptyState = toSignal(this.dataSourceService.isStreamEmpty$);
   readonly dialog = inject(MatDialog);
   private readonly searchInput = viewChild.required<ElementRef<HTMLInputElement>>('searchInput');
   private readonly searchInputValue = signal('');
