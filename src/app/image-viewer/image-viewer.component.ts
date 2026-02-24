@@ -109,36 +109,28 @@ export class ImageViewerComponent implements AfterViewInit{
     this.transformer.nodes([]);
   }
 
-  private async loadImage(): Promise<Konva.Image> {
-    const imagePromise = new Promise<Konva.Image>(resolve => {
-      const imageObj = new Image();
-      imageObj.onload = () => {
-        const maxWidth = this.stage.width();
-        const maxHeight = this.stage.height();
+  private async setupImage(): Promise<Konva.Image> {
+    const imageObj = new Image();
+    const imageLoad = new Promise(resolve => {imageObj.onload = resolve;});
+    imageObj.src = this.imageUrl;
 
-        const scale = Math.min(maxWidth / imageObj.width, maxHeight / imageObj.height);
+    await imageLoad;
 
-        const konvaImage = new Konva.Image({
-          x: this.stage.width() / 2,
-          y: this.stage.height() / 2,
-          image: imageObj,
-          width: imageObj.width * scale,
-          height: imageObj.height * scale,
-          offsetX: (imageObj.width * scale) / 2,
-          offsetY: (imageObj.height * scale) / 2,
-        });
+    const maxWidth = this.stage.width();
+    const maxHeight = this.stage.height();
+    const scale = Math.min(maxWidth / imageObj.width, maxHeight / imageObj.height);
 
-        this.layer.add(konvaImage);
-        this.layer.add(this.transformer);
-        this.layer.add(this.nextPointLineIndicator);
-
-        resolve(konvaImage);
-      };
-
-      imageObj.src = this.imageUrl;
+    const konvaImage = new Konva.Image({
+      x: this.stage.width() / 2,
+      y: this.stage.height() / 2,
+      image: imageObj,
+      width: imageObj.width * scale,
+      height: imageObj.height * scale,
+      offsetX: (imageObj.width * scale) / 2,
+      offsetY: (imageObj.height * scale) / 2,
     });
 
-    return imagePromise;
+    return konvaImage
   }
 
   private async setupStage() {
@@ -150,7 +142,11 @@ export class ImageViewerComponent implements AfterViewInit{
 
     this.stage.add(this.layer);
 
-    await this.loadImage();
+    const konvaImage = await this.setupImage();
+
+    this.layer.add(konvaImage);
+    this.layer.add(this.transformer);
+    this.layer.add(this.nextPointLineIndicator);
 
     this.addPreExistingAnnotations();
 
@@ -217,7 +213,7 @@ export class ImageViewerComponent implements AfterViewInit{
   }
 
   private addPreExistingAnnotations() {
-    const existingAnnotations = this.matDialogData.imageMetadata.annotations
+    const existingAnnotations = this.matDialogData.imageMetadata.annotations;
 
     if (existingAnnotations == null || existingAnnotations?.length === 0) {
       return;
