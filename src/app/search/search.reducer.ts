@@ -36,6 +36,7 @@ export const searchReducer = createReducer(
       ...state,
       query: payload.query,
       isLoading: true,
+      isLoaded: false,
       results: [],
       totalHits: 0,
     })

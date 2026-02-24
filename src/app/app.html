@@ -16,8 +16,10 @@
   </div>
 </div>
 
-
 <div class="results-container">
+  @if (isEmptyState()) {
+    <h2 class="empty-state-message">Nope, try again</h2>
+  }
   <cdk-virtual-scroll-viewport itemSize="100" class="example-viewport">
     <div *cdkVirtualFor="let result of dataSourceService" class="image-thumbnail-container">
       <div (click)="resultClicked(result)">

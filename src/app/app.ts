@@ -23,7 +23,8 @@ import {selectSearchHistoryState} from './search/search.selectors';
 export class App {
   private store = inject(Store);
   private apiTokenService = inject(ApiTokenService);
-  protected dataSourceService = inject(ImageResultsDataSourceService);
+  protected dataSourceService = new ImageResultsDataSourceService();
+  protected isEmptyState = toSignal(this.dataSourceService.isStreamEmpty$);
   readonly dialog = inject(MatDialog);
   private readonly searchInput = viewChild.required<ElementRef<HTMLInputElement>>('searchInput');
   private readonly searchInputValue = signal('');
