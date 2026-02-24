@@ -1,3 +1,5 @@
+import {LineConfig} from 'konva/lib/shapes/Line';
+
 export interface ImageMetadata {
   id: number;
   tags: string;
@@ -5,6 +7,4 @@ export interface ImageMetadata {
   largeImageURL: string;
 }
 
-export type AnnotatedImageMetadata = ImageMetadata & {annotations: number[][]};
-
-export type ImageAnnotation = number[];
+export type AnnotatedImageMetadata = ImageMetadata & {annotations: LineConfig[]};

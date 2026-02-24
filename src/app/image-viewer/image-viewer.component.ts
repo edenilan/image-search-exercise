@@ -2,9 +2,14 @@ import {AfterViewInit, Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogActions, MatDialogRef} from '@angular/material/dialog';
 import Konva from 'konva'
 import {Stage} from 'konva/lib/Stage';
-import {Line} from 'konva/lib/shapes/Line';
+import {Line, LineConfig} from 'konva/lib/shapes/Line';
 import {Vector2d} from 'konva/lib/types';
 import {MatButton} from '@angular/material/button';
+import {AnnotatedImageMetadata} from '../image-metadata.type';
+
+export interface DialogData {
+  imageMetadata: AnnotatedImageMetadata;
+}
 
 @Component({
   selector: 'image-viewer',
@@ -20,7 +25,7 @@ import {MatButton} from '@angular/material/button';
   }
 })
 export class ImageViewerComponent implements AfterViewInit{
-  private matDialogData = inject(MAT_DIALOG_DATA);
+  private matDialogData: DialogData = inject(MAT_DIALOG_DATA);
   private dialogRef = inject(MatDialogRef);
   private imageUrl = this.matDialogData.imageMetadata.largeImageURL;
   private stage!: Stage;
@@ -29,14 +34,14 @@ export class ImageViewerComponent implements AfterViewInit{
   private transformer: Konva.Transformer;
   private readonly layer: Konva.Layer;
 
-  get annotations(): number[][] {
+  get annotations(): LineConfig[] {
     if (this.layer == null) {
       return [];
     }
 
     return this.layer.children
       .filter(child => child.getType() === 'Shape' && (child as Line).points?.() != null)
-      .map(shape => (shape as Line).points());
+      .map(shape => (shape as Line).attrs);
   }
 
   constructor() {
@@ -212,20 +217,14 @@ export class ImageViewerComponent implements AfterViewInit{
   }
 
   private addPreExistingAnnotations() {
-    const existingAnnotations: number[][] = this.matDialogData.imageMetadata.annotations
+    const existingAnnotations = this.matDialogData.imageMetadata.annotations
 
     if (existingAnnotations == null || existingAnnotations?.length === 0) {
       return;
     }
 
     existingAnnotations.forEach((annotation) => {
-      const line = new Konva.Line({
-        points: annotation,
-        stroke: 'red',
-        draggable: true,
-        closed: true
-      });
-
+      const line = new Konva.Line(annotation);
       this.layer.add(line);
     })
   }

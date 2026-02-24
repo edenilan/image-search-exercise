@@ -1,7 +1,8 @@
 import {createReducer, on} from '@ngrx/store';
 import {annotationsUpdatedForImage} from './annotations.actions';
+import {LineConfig} from 'konva/lib/shapes/Line';
 
-export type AnnotationsState = Record<number, number[][]>;
+export type AnnotationsState = Record<number, LineConfig[]>;
 
 const initialState: AnnotationsState = {};
 

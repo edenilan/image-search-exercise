@@ -5,8 +5,8 @@ import {queryChanged} from './search/search.actions';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ApiTokenService} from './api-token/api-token.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ImageViewerComponent} from './image-viewer/image-viewer.component';
-import {AnnotatedImageMetadata, ImageMetadata} from './image-metadata.type';
+import {DialogData, ImageViewerComponent} from './image-viewer/image-viewer.component';
+import {AnnotatedImageMetadata} from './image-metadata.type';
 import {annotationsUpdatedForImage} from './annotations/annotations.actions';
 import {selectImagesWithAnnotations} from './app.selectors';
 
@@ -31,8 +31,9 @@ export class App {
   }
 
   resultClicked(result: AnnotatedImageMetadata) {
+    const data: DialogData = {imageMetadata: result};
     const dialogRef = this.dialog.open(ImageViewerComponent, {
-      data: {imageMetadata: result},
+      data,
       disableClose: true,
     });
 
