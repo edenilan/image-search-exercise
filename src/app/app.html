@@ -1,22 +1,27 @@
-<div class="api-key-container">
-  <debounced-input (value)="onTokenInput($event)"
-                   [placeholder]="'what\'s your api key?'">
-  </debounced-input>
+<div class="header">
+  <div class="api-key-container">
+    <debounced-input (value)="onTokenInput($event)"
+                     [placeholder]="'what\'s your api key?'">
+    </debounced-input>
+  </div>
+
+  <div class="search-container">
+    <debounced-input (value)="onQueryChange($event)"
+                     [placeholder]="'what are looking for?'">
+    </debounced-input>
+  </div>
 </div>
 
-<div class="search-container">
-  <debounced-input (value)="onQueryChange($event)"
-                   [placeholder]="'what are looking for?'">
-  </debounced-input>
-</div>
 
 <div class="results-container">
   <cdk-virtual-scroll-viewport itemSize="100" class="example-viewport">
-    <div *cdkVirtualFor="let result of dataSourceService">
-      <img [src]="result.previewURL" (click)="resultClicked(result)">
-      @if (result.annotations != null && result.annotations.length > 0) {
-        <span>(annotated)</span>
-      }
+    <div *cdkVirtualFor="let result of dataSourceService" class="image-thumbnail-container">
+      <div (click)="resultClicked(result)">
+        <img [src]="result.previewURL">
+        @if (result.annotations != null && result.annotations.length > 0) {
+          <span class="has-annotation-indicator">✎ annotated</span>
+        }
+      </div>
     </div>
   </cdk-virtual-scroll-viewport>
 </div>
