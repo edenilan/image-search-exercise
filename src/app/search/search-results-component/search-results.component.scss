@@ -10,11 +10,63 @@ cdk-virtual-scroll-viewport {
   flex: 1;
   width: 100%;
   height: 100%;
+}
 
-  img {
-    cursor: pointer;
-    height: 100px;
+img {
+  cursor: pointer;
+  height: 100px;
+}
+
+.extra-info {
+  position: absolute;
+  display: inline-block;
+  bottom: 5px;
+  transform: translate(-10px, -10px);
+}
+
+.tags-container {
+  margin-bottom: 8px;
+  max-width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 100px;
+  animation: fade-in 0.7s ease-in forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    display: none;
   }
+  50% {
+    opacity: 0;
+    display: none;
+  }
+
+  100% {
+    opacity: 1;
+    display: flex;
+  }
+}
+.capsule {
+  width: fit-content;
+  padding: 0 5px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.has-annotation-indicator {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.tag {
+  background-color: royalblue;
+  margin: 3px;
+  color: lightgrey;
+  padding: 0 6px;
 }
 
 .empty-state-message {
@@ -27,16 +79,4 @@ cdk-virtual-scroll-viewport {
   justify-content: center;
   margin: 10px;
   position: relative;
-
-  .has-annotation-indicator {
-    position: absolute;
-    bottom: 5px;
-    padding: 0 5px;
-    background-color: white;
-    border-radius: 8px;
-    font-size: 12px;
-    line-height: 12px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    transform: translate(-10px, -10px);
-  }
 }

@@ -5,11 +5,21 @@
   }
   <cdk-virtual-scroll-viewport itemSize="100">
     <div *cdkVirtualFor="let result of dataSourceService; trackBy: trackByResultId"  class="image-thumbnail-container">
-      <div (click)="onResultClicked(result)">
+      <div (click)="onResultClicked(result)" class="single-result-container"
+           (mouseenter)="onMouseEnterResult(result)" (mouseleave)="onMouseLeaveResult()">
         <img [src]="result.previewURL">
-        @if (result.annotations != null && result.annotations.length > 0) {
-          <span class="has-annotation-indicator">✎ annotated</span>
-        }
+        <div class="extra-info">
+          @if (hoveredResult() === result.id) {
+            <div class="tags-container">
+              @for (tag of result.tags.split(','); track tag) {
+                <span class="capsule tag"> {{tag}} </span>
+              }
+            </div>
+          }
+          @if (result.annotations != null && result.annotations.length > 0) {
+            <div class="capsule has-annotation-indicator">✎ annotated</div>
+          }
+        </div>
       </div>
     </div>
   </cdk-virtual-scroll-viewport>

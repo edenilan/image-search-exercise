@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, output, signal} from '@angular/core';
 import {
   CdkFixedSizeVirtualScroll,
   CdkVirtualForOf,
@@ -23,6 +23,7 @@ export class SearchResultsComponent {
   protected dataSourceService = new ImageResultsDataSourceService();
   protected isEmptyState = toSignal(this.dataSourceService.isStreamEmpty$);
   protected resultClicked = output<AnnotatedImageMetadata>();
+  protected hoveredResult = signal<number|null>(null);
 
   onResultClicked(result: AnnotatedImageMetadata) {
     this.resultClicked.emit(result);
@@ -30,5 +31,13 @@ export class SearchResultsComponent {
 
   protected trackByResultId(index: number, result: AnnotatedImageMetadata) {
     return result.id;
+  }
+
+  onMouseEnterResult(result: AnnotatedImageMetadata) {
+    this.hoveredResult.set(result.id);
+  }
+
+  onMouseLeaveResult() {
+    this.hoveredResult.set(null);
   }
 }
