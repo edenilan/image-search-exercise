@@ -7,3 +7,5 @@ export const selectSearchResults = createSelector(
   selectSearchResultsState,
   (searchResults) => searchResults.results
 );
+
+

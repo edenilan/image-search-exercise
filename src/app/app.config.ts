@@ -6,6 +6,7 @@ import {provideStoreDevtools} from '@ngrx/store-devtools';
 import {SearchEffects} from './search/search.effects';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {ApiTokenInterceptor} from './api-token/api-token.interceptor';
+import {annotationsReducer} from './annotations/annotations.reducer';
 
 
 export const appConfig: ApplicationConfig = {
@@ -13,6 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideStore(),
     provideState('searchResults', searchResultsReducer),
+    provideState('annotations', annotationsReducer),
     provideEffects([SearchEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
