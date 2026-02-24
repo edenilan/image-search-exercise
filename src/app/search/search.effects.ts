@@ -14,14 +14,14 @@ export class SearchEffects {
   private actions$ = inject(Actions);
   private store = inject(Store);
   private searchService = inject(SearchService);
-  private readonly RESULTS_PER_PAGE = 20;
+  private readonly RESULTS_PER_PAGE = 30;
 
   executeSearch$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(queryChanged),
       switchMap(({query}) =>
         this.searchService.executeSearch(query, this.RESULTS_PER_PAGE).pipe(
-          map((response: SearchResultsResponse) => searchImagesSuccess({response})),
+          map((response: SearchResultsResponse) => searchImagesSuccess({response, query})),
           catchError(error => of(searchImagesFail()))
         )
       )
@@ -40,7 +40,7 @@ export class SearchEffects {
         const nextPageNumber = getNextPageNumber(searchState, this.RESULTS_PER_PAGE);
         return this.searchService.executeSearch(searchState.query, this.RESULTS_PER_PAGE, nextPageNumber).pipe(
           takeUntil(this.actions$.pipe(ofType(queryChanged))),
-          map(response => searchImagesSuccess({response})),
+          map(response => searchImagesSuccess({response, query: searchState.query})),
           catchError(() => of(searchImagesFail()))
         );
       })

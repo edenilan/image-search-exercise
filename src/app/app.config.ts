@@ -7,6 +7,7 @@ import {SearchEffects} from './search/search.effects';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {ApiTokenInterceptor} from './api-token/api-token.interceptor';
 import {annotationsReducer} from './annotations/annotations.reducer';
+import {searchHistoryReducer} from './search/search-history.reducer';
 
 
 export const appConfig: ApplicationConfig = {
@@ -15,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideState('searchResults', searchReducer),
     provideState('annotations', annotationsReducer),
+    provideState('searchHistory', searchHistoryReducer),
     provideEffects([SearchEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

@@ -6,9 +6,13 @@
   </div>
 
   <div class="search-container">
-    <debounced-input (value)="onQueryChange($event)"
-                     [placeholder]="'what are looking for?'">
-    </debounced-input>
+    <input type="text" [placeholder]="'what are looking for?'" #searchInput
+           (input)="searchInputChanged()" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchInputChanged()">
+      @for (suggestion of autocompleteSuggestions(); track suggestion) {
+        <mat-option [value]="suggestion">{{suggestion}}</mat-option>
+      }
+    </mat-autocomplete>
   </div>
 </div>
 
