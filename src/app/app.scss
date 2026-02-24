@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.api-key-container, .search-container {
+  margin: 10px
+}
+
+input {
+  width: 400px;
+}
+
+.results-container {
+  flex: 1;
+  margin: 10px;
+
+  img {
+    cursor: pointer;
+  }
+}

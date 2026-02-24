@@ -10,12 +10,14 @@
   </debounced-input>
 </div>
 
+<div class="results-container">
+  @for (result of searchResults(); track result.id) {
+    <div>
+      <img [src]="result.previewURL" (click)="resultClicked(result)">
+      @if (result.annotations != null && result.annotations.length > 0) {
+        <span>(annotated)</span>
+      }
+    </div>
+  }
 
-@for (result of searchResults(); track result.id) {
-  <div>
-    <img [src]="result.previewURL" (click)="resultClicked(result)">
-    @if (result.annotations != null && result.annotations.length > 0) {
-      <span>(annotated)</span>
-    }
-  </div>
-}
+</div>

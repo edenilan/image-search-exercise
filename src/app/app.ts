@@ -13,7 +13,7 @@ import {selectImagesWithAnnotations} from './app.selectors';
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  styleUrl: './app.css',
+  styleUrl: './app.scss',
   imports: [DebouncedInputComponent]
 })
 export class App {
