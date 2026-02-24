@@ -16,6 +16,7 @@ export class SearchService {
     const params = {
       q: query,
       image_type: 'photo',
+      per_page: '100'
     };
 
     return this.httpClient.get<SearchResultsResponse>(url, {params}).pipe();

@@ -9,12 +9,13 @@ import {DialogData, ImageViewerComponent} from './image-viewer/image-viewer.comp
 import {AnnotatedImageMetadata} from './image-metadata.type';
 import {annotationsUpdatedForImage} from './annotations/annotations.actions';
 import {selectImagesWithAnnotations} from './app.selectors';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  imports: [DebouncedInputComponent]
+  imports: [DebouncedInputComponent, ScrollingModule]
 })
 export class App {
   private store = inject(Store);

@@ -18,5 +18,10 @@ input {
 
   img {
     cursor: pointer;
+    height: 100px;
   }
+}
+
+cdk-virtual-scroll-viewport {
+  height: 100%;
 }
