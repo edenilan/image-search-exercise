@@ -2,14 +2,13 @@ import {Component, inject} from '@angular/core';
 import {DebouncedInputComponent} from './debounced-input/debounced-input.component';
 import {Store} from '@ngrx/store';
 import {queryChanged} from './search/search.actions';
-import {toSignal} from '@angular/core/rxjs-interop';
 import {ApiTokenService} from './api-token/api-token.service';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogData, ImageViewerComponent} from './image-viewer/image-viewer.component';
 import {AnnotatedImageMetadata} from './image-metadata.type';
 import {annotationsUpdatedForImage} from './annotations/annotations.actions';
-import {selectImagesWithAnnotations} from './app.selectors';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import {ImageResultsDataSourceService} from './image-results-data-source.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +19,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 export class App {
   private store = inject(Store);
   private apiTokenService = inject(ApiTokenService);
-  protected searchResults = toSignal(this.store.select(selectImagesWithAnnotations));
+  protected dataSourceService = inject(ImageResultsDataSourceService);
   readonly dialog = inject(MatDialog);
 
   onQueryChange(query: string) {
@@ -45,3 +44,4 @@ export class App {
     })
   }
 }
+

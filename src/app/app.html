@@ -12,7 +12,7 @@
 
 <div class="results-container">
   <cdk-virtual-scroll-viewport itemSize="100" class="example-viewport">
-    <div *cdkVirtualFor="let result of searchResults()">
+    <div *cdkVirtualFor="let result of dataSourceService">
       <img [src]="result.previewURL" (click)="resultClicked(result)">
       @if (result.annotations != null && result.annotations.length > 0) {
         <span>(annotated)</span>

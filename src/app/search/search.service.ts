@@ -10,13 +10,14 @@ export class SearchService {
   }
   private httpClient = inject(HttpClient);
 
-  executeSearch(query: string): Observable<SearchResultsResponse> {
+  executeSearch(query: string, per_page: number, page = 1): Observable<SearchResultsResponse> {
     const url = 'https://pixabay.com/api';
 
     const params = {
       q: query,
       image_type: 'photo',
-      per_page: '100'
+      per_page,
+      page
     };
 
     return this.httpClient.get<SearchResultsResponse>(url, {params}).pipe();

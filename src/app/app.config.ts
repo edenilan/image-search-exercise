@@ -1,7 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import {provideState, provideStore} from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import {searchResultsReducer} from './search/search-results.reducer';
+import {searchReducer} from './search/search.reducer';
 import {provideStoreDevtools} from '@ngrx/store-devtools';
 import {SearchEffects} from './search/search.effects';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideStore(),
-    provideState('searchResults', searchResultsReducer),
+    provideState('searchResults', searchReducer),
     provideState('annotations', annotationsReducer),
     provideEffects([SearchEffects]),
     provideStoreDevtools({

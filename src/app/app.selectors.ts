@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {selectSearchResults} from './search/search-results.selectors';
+import {selectSearchResults} from './search/search.selectors';
 import {selectAnnotationsState} from './annotations/annotations.selectors';
 
 export const selectImagesWithAnnotations = createSelector(

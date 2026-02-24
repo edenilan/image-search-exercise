@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {ImageMetadata} from '../image-metadata.type';
+import {SearchResultsResponse} from './search-results-response.type';
 
 export const queryChanged = createAction(
   '[Search] Query Changed]',
@@ -8,9 +8,13 @@ export const queryChanged = createAction(
 
 export const searchImagesSuccess = createAction(
   '[Search] Search Images Success',
-  props<{ data: ImageMetadata[] }>(),
+  props<{ response: SearchResultsResponse }>(),
 );
 
 export const searchImagesFail = createAction(
   '[Search] Search Images Fail'
-)
+);
+
+export const moreResultsNeeded = createAction(
+  '[Search] More Results Needed',
+);
