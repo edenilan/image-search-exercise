@@ -5,4 +5,6 @@ export interface ImageMetadata {
   largeImageURL: string;
 }
 
+export type AnnotatedImageMetadata = ImageMetadata & {annotations: number[][]};
+
 export type ImageAnnotation = number[];
