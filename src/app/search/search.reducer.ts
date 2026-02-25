@@ -7,7 +7,9 @@ export interface SearchState extends EntityState<ImageMetadata> {
   query: string;
   isLoading: boolean;
   isLoaded: boolean;
+  isError: boolean;
   totalHits: number;
+  lastFetchedPage: number;
 }
 
 const adapter = createEntityAdapter<ImageMetadata>();
@@ -16,7 +18,9 @@ const initialState = adapter.getInitialState( {
   query: '',
   isLoading: false,
   isLoaded: false,
+  isError: false,
   totalHits: 0,
+  lastFetchedPage: 0,
 });
 
 export const searchReducer = createReducer(
@@ -26,13 +30,16 @@ export const searchReducer = createReducer(
       ...state,
       isLoading: false,
       isLoaded: true,
+      isError: false,
       totalHits: payload.response.totalHits,
+      lastFetchedPage: payload.pageNumber,
     })
   ),
   on(searchImagesFail, (state, payload) => ({
     ...state,
     isLoading: false,
     isLoaded: false,
+    isError: true
   })),
   on(queryChanged, (state, payload) =>
   adapter.removeAll({
@@ -40,7 +47,9 @@ export const searchReducer = createReducer(
       query: payload.query,
       isLoading: true,
       isLoaded: false,
+      isError: false,
       totalHits: 0,
+      lastFetchedPage: 0,
   })
   )
 );
@@ -50,3 +59,4 @@ export const selectSearchState = createFeatureSelector<SearchState>('searchResul
 const {selectEntities, selectTotal, selectIds} = adapter.getSelectors(selectSearchState);
 export const selectSearchResults = selectEntities;
 export const selectTotalResults = selectTotal;
+export const selectSearchResultIds = selectIds;

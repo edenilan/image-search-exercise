@@ -9,7 +9,7 @@
   @if (isErrorState()) {
     <error-state></error-state>
   }
-  <cdk-virtual-scroll-viewport itemSize="100">
+  <cdk-virtual-scroll-viewport itemSize="105">
     <div *cdkVirtualFor="let result of dataSourceService; trackBy: trackByResultId"  class="image-thumbnail-container">
       <div class="single-result-container"
            (mouseenter)="onMouseEnterResult(result)" (mouseleave)="onMouseLeaveResult()">

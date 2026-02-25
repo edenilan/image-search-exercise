@@ -1,16 +1,27 @@
-import {createSelector, MemoizedSelector} from '@ngrx/store';
+import {createSelector} from '@ngrx/store';
 import {selectAnnotationsState} from './annotations/annotations.selectors';
-import {selectSearchResults} from './search/search.reducer';
-import {AnnotatedImageMetadata} from './image-metadata.type';
+import {selectSearchResultIds, selectSearchResults} from './search/search.reducer';
 
-
-
-export const selectImagesWithAnnotations: MemoizedSelector<any, AnnotatedImageMetadata[]> = createSelector(
+export const selectImagesWithAnnotations = createSelector(
+  selectSearchResultIds,
   selectSearchResults,
   selectAnnotationsState,
-  (imageDictionary, annotationsState) => Object.values(imageDictionary).filter(x => x != null).map(image => ({
-      ...image,
-      annotations: annotationsState[image.id],
-    }))
-  );
+  (resultIds, resultDictionary, annotationsState) => {
 
+    const annotatedImages = resultIds.map((id) => {
+      const imageMetadata = resultDictionary[id];
+
+      if (imageMetadata == null) {
+        return undefined;
+      }
+
+      return {
+        ...imageMetadata,
+        annotations: annotationsState[id as number],
+      };
+    });
+
+    const result = annotatedImages.filter((image) => image != null);
+    return result;
+  }
+);

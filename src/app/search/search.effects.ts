@@ -1,12 +1,12 @@
 import {inject, Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {moreResultsNeeded, queryChanged, searchImagesFail, searchImagesSuccess} from './search.actions';
-import {switchMap, map, catchError, withLatestFrom, filter, takeUntil} from 'rxjs/operators';
+import {switchMap, map, catchError, withLatestFrom, filter, takeUntil, exhaustMap} from 'rxjs/operators';
 import {SearchService} from './search.service';
 import {of} from 'rxjs';
 import {SearchResultsResponse} from './search-results-response.type';
 import {Store} from '@ngrx/store';
-import {SearchState, selectSearchState} from './search.reducer';
+import {selectSearchState} from './search.reducer';
 import {apiTokenUpdated} from '../api-token/api-token.actions';
 
 @Injectable()
@@ -19,12 +19,14 @@ export class SearchEffects {
   executeSearch$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(queryChanged),
-      switchMap(({query}) =>
-        this.searchService.executeSearch(query, this.RESULTS_PER_PAGE).pipe(
-          map((response: SearchResultsResponse) => searchImagesSuccess({response, query})),
+      switchMap(({query}) => {
+        const pageNumber = 1;
+
+        return this.searchService.executeSearch(query, this.RESULTS_PER_PAGE, pageNumber).pipe(
+          map((response: SearchResultsResponse) => searchImagesSuccess({response, query, pageNumber})),
           catchError(error => of(searchImagesFail()))
         )
-      )
+      })
     );
   });
 
@@ -37,11 +39,11 @@ export class SearchEffects {
         const hitsLeft = searchState.totalHits - numOfResults;
         return hitsLeft > 0;
       }),
-      switchMap(([, searchState]) => {
-        const nextPageNumber = getNextPageNumber(searchState, this.RESULTS_PER_PAGE);
+      exhaustMap(([, searchState]) => {
+        const nextPageNumber = searchState.lastFetchedPage + 1;
         return this.searchService.executeSearch(searchState.query, this.RESULTS_PER_PAGE, nextPageNumber).pipe(
           takeUntil(this.actions$.pipe(ofType(queryChanged))),
-          map(response => searchImagesSuccess({response, query: searchState.query})),
+          map(response => searchImagesSuccess({response, query: searchState.query, pageNumber: nextPageNumber})),
           catchError(() => of(searchImagesFail()))
         );
       })
@@ -55,11 +57,4 @@ export class SearchEffects {
       map(([action, {query}]) => queryChanged({query}))
     )
   });
-}
-
-function getNextPageNumber(searchState: SearchState, resultsPerPage: number): number {
-  const numOfResults = searchState.ids.length;
-  const currentPage = Math.floor(numOfResults / resultsPerPage);
-
-  return currentPage + 1;
 }

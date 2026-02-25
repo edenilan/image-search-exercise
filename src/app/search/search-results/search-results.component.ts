@@ -8,7 +8,7 @@ import {toSignal} from '@angular/core/rxjs-interop';
 import {ImageResultsDataSourceService} from '../../image-results-data-source.service';
 import {AnnotatedImageMetadata} from '../../image-metadata.type';
 import {Store} from '@ngrx/store';
-import {selectIsLoadingState, selectIsSearchErrorState} from '../search.selectors';
+import {selectIsLoadingState, selectIsSearchEmptyState, selectIsSearchErrorState} from '../search.selectors';
 import {ErrorStateComponent} from './error-state-component/error-state.component';
 import {TagsStringToListPipePipe} from './tags-string-to-list-pipe-pipe';
 
@@ -27,8 +27,8 @@ import {TagsStringToListPipePipe} from './tags-string-to-list-pipe-pipe';
 })
 export class SearchResultsComponent {
   protected dataSourceService = new ImageResultsDataSourceService();
-  protected isEmptyState = toSignal(this.dataSourceService.isStreamEmpty$);
   private store = inject(Store);
+  protected isEmptyState = toSignal(this.store.select(selectIsSearchEmptyState));
   protected isLoadingState = toSignal(this.store.select(selectIsLoadingState));
   protected isErrorState = toSignal(this.store.select(selectIsSearchErrorState));
   protected resultClicked = output<AnnotatedImageMetadata>();

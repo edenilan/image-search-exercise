@@ -8,7 +8,7 @@ export const queryChanged = createAction(
 
 export const searchImagesSuccess = createAction(
   '[Search] Search Images Success',
-  props<{ response: SearchResultsResponse, query: string }>(),
+  props<{ response: SearchResultsResponse, query: string, pageNumber: number }>(),
 );
 
 export const searchImagesFail = createAction(
