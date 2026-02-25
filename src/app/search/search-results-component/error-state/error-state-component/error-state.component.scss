@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button[matButton] {
+  height: 25px;
+  min-width: unset;
+}
+
+.api-key-container {
+  margin: 10px;
+  width: fit-content;
+}
+
+.message-text {
+  color: gray;
+  text-align: center;
+}
+
+input {
+  width: 200px;
+}

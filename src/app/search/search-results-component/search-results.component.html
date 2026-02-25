@@ -3,9 +3,11 @@
   @if (isEmptyState()) {
     <h2 class="empty-state-message">Nope, try again</h2>
   }
+  @if (isLoadingState()) {
+    <h2 class="empty-state-message">Just a sec...</h2>
+  }
   @if (isErrorState()) {
-    <h2 class="error-state-message">Oops, something went wrong</h2>
-    <h3 class="error-state-message">Please try updating your API token</h3>
+    <error-state></error-state>
   }
   <cdk-virtual-scroll-viewport itemSize="100">
     <div *cdkVirtualFor="let result of dataSourceService; trackBy: trackByResultId"  class="image-thumbnail-container">

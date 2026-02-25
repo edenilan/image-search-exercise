@@ -41,7 +41,7 @@ export const searchReducer = createReducer(
       isLoading: true,
       isLoaded: false,
       totalHits: 0,
-    })
+  })
   )
 );
 

@@ -8,3 +8,5 @@ export const selectSearchHistoryState = createFeatureSelector<SearchHistoryState
 export const selectIsSearchErrorState = createSelector(selectSearchState, (searchState) => {
   return searchState.query != null && searchState.query.length > 0 && !searchState.isLoaded && !searchState.isLoading;
 });
+
+export const selectIsLoadingState = createSelector(selectSearchState, (searchState) => searchState.isLoading);

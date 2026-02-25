@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import {Store} from '@ngrx/store';
 import {queryChanged} from './search/search.actions';
-import {ApiTokenService} from './api-token/api-token.service';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogData, ImageViewerComponent} from './image-viewer/image-viewer.component';
 import {AnnotatedImageMetadata} from './image-metadata.type';
@@ -31,18 +30,13 @@ import {SearchResultsComponent} from './search/search-results-component/search-r
 })
 export class App {
   private store = inject(Store);
-  private apiTokenService = inject(ApiTokenService);
   readonly dialog = inject(MatDialog);
   private readonly searchInput = viewChild.required<ElementRef<HTMLInputElement>>('searchInput');
   private readonly searchInputValue = signal('');
   private readonly debouncedSearchInputValue = toSignal(
     toObservable(this.searchInputValue).pipe(debounceTime(500))
   );
-  private readonly apiTokenInput = viewChild.required<ElementRef<HTMLInputElement>>('apiTokenInput');
-  private readonly apiTokenInputValue = signal('');
-  private readonly debouncedApiTokenInputValue = toSignal(
-    toObservable(this.apiTokenInputValue).pipe(debounceTime(500))
-  );
+
   private readonly searchHistoryState = toSignal(this.store.select(selectSearchHistoryState));
   protected readonly autocompleteSuggestions = computed(() => {
     const currentSearchTerm = this.debouncedSearchInputValue();
@@ -69,14 +63,6 @@ export class App {
         this.store.dispatch(queryChanged({query}));
       }
     });
-
-    effect(() => {
-      const apiKey = this.debouncedApiTokenInputValue();
-
-      if (apiKey != null && apiKey.length > 0) {
-        this.apiTokenService.updateApiToken(apiKey);
-      }
-    });
   }
 
   resultClicked(result: AnnotatedImageMetadata) {
@@ -96,11 +82,6 @@ export class App {
   searchInputChanged() {
     const searchInput = this.searchInput();
     this.searchInputValue.set(searchInput.nativeElement.value.trim().toLowerCase());
-  }
-
-  apiTokenInputChanged() {
-    const apiTokenInput = this.apiTokenInput();
-    this.apiTokenInputValue.set(apiTokenInput.nativeElement.value);
   }
 }
 

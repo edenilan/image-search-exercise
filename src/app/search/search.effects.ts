@@ -7,6 +7,7 @@ import {of} from 'rxjs';
 import {SearchResultsResponse} from './search-results-response.type';
 import {Store} from '@ngrx/store';
 import {SearchState, selectSearchState} from './search.reducer';
+import {apiTokenUpdated} from '../api-token/api-token.actions';
 
 @Injectable()
 export class SearchEffects {
@@ -45,7 +46,15 @@ export class SearchEffects {
         );
       })
     );
-  })
+  });
+
+  fetchResultsOnApiTokenChange = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(apiTokenUpdated),
+      withLatestFrom(this.store.select(selectSearchState)),
+      map(([action, {query}]) => queryChanged({query}))
+    )
+  });
 }
 
 function getNextPageNumber(searchState: SearchState, resultsPerPage: number): number {

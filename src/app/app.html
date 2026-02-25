@@ -1,9 +1,4 @@
 <div class="header">
-  <div class="api-key-container">
-    <input type="text" [placeholder]="'what\'s your api key?'" #apiTokenInput
-           (input)="apiTokenInputChanged()">
-  </div>
-
   <div class="search-container">
     <input type="text" [placeholder]="'what are looking for?'" #searchInput
            (input)="searchInputChanged()" [matAutocomplete]="auto">

@@ -1,0 +1,6 @@
+<h2 class="message-text">Oops, something went wrong</h2>
+<h3 class="message-text">Please try updating your API token</h3>
+<div class="api-key-container">
+  <input type="text" [placeholder]="'API token goes here'" #inputElement>
+  <button matButton (click)="updateApiToken(inputElement.value)">OK</button>
+</div>
