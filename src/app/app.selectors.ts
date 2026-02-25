@@ -13,3 +13,4 @@ export const selectImagesWithAnnotations: MemoizedSelector<any, AnnotatedImageMe
       annotations: annotationsState[image.id],
     }))
   );
+

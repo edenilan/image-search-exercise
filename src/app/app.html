@@ -1,8 +1,7 @@
 <div class="header">
   <div class="api-key-container">
-    <debounced-input (value)="onTokenInput($event)"
-                     [placeholder]="'what\'s your api key?'">
-    </debounced-input>
+    <input type="text" [placeholder]="'what\'s your api key?'" #apiTokenInput
+           (input)="apiTokenInputChanged()">
   </div>
 
   <div class="search-container">

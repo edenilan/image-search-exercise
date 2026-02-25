@@ -8,7 +8,6 @@ import {
   signal,
   viewChild
 } from '@angular/core';
-import {DebouncedInputComponent} from './debounced-input/debounced-input.component';
 import {Store} from '@ngrx/store';
 import {queryChanged} from './search/search.actions';
 import {ApiTokenService} from './api-token/api-token.service';
@@ -27,7 +26,7 @@ import {SearchResultsComponent} from './search/search-results-component/search-r
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  imports: [DebouncedInputComponent, ScrollingModule, MatAutocompleteModule, SearchResultsComponent],
+  imports: [ScrollingModule, MatAutocompleteModule, SearchResultsComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
@@ -38,6 +37,11 @@ export class App {
   private readonly searchInputValue = signal('');
   private readonly debouncedSearchInputValue = toSignal(
     toObservable(this.searchInputValue).pipe(debounceTime(500))
+  );
+  private readonly apiTokenInput = viewChild.required<ElementRef<HTMLInputElement>>('apiTokenInput');
+  private readonly apiTokenInputValue = signal('');
+  private readonly debouncedApiTokenInputValue = toSignal(
+    toObservable(this.apiTokenInputValue).pipe(debounceTime(500))
   );
   private readonly searchHistoryState = toSignal(this.store.select(selectSearchHistoryState));
   protected readonly autocompleteSuggestions = computed(() => {
@@ -65,10 +69,14 @@ export class App {
         this.store.dispatch(queryChanged({query}));
       }
     });
-  }
 
-  onTokenInput(token: string) {
-    this.apiTokenService.updateApiToken(token);
+    effect(() => {
+      const apiKey = this.debouncedApiTokenInputValue();
+
+      if (apiKey != null && apiKey.length > 0) {
+        this.apiTokenService.updateApiToken(apiKey);
+      }
+    });
   }
 
   resultClicked(result: AnnotatedImageMetadata) {
@@ -86,8 +94,13 @@ export class App {
   }
 
   searchInputChanged() {
-    const searchInputElement = this.searchInput();
-    this.searchInputValue.set(searchInputElement.nativeElement.value.trim().toLowerCase());
+    const searchInput = this.searchInput();
+    this.searchInputValue.set(searchInput.nativeElement.value.trim().toLowerCase());
+  }
+
+  apiTokenInputChanged() {
+    const apiTokenInput = this.apiTokenInput();
+    this.apiTokenInputValue.set(apiTokenInput.nativeElement.value);
   }
 }
 

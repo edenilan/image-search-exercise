@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, output, signal} from '@angular/core';
 import {
   CdkFixedSizeVirtualScroll,
   CdkVirtualForOf,
@@ -7,6 +7,8 @@ import {
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ImageResultsDataSourceService} from '../../image-results-data-source.service';
 import {AnnotatedImageMetadata} from '../../image-metadata.type';
+import {Store} from '@ngrx/store';
+import {selectIsSearchErrorState} from '../search.selectors';
 
 @Component({
   selector: 'search-results',
@@ -22,6 +24,8 @@ import {AnnotatedImageMetadata} from '../../image-metadata.type';
 export class SearchResultsComponent {
   protected dataSourceService = new ImageResultsDataSourceService();
   protected isEmptyState = toSignal(this.dataSourceService.isStreamEmpty$);
+  private store = inject(Store);
+  protected isErrorState = toSignal(this.store.select(selectIsSearchErrorState));
   protected resultClicked = output<AnnotatedImageMetadata>();
   protected hoveredResult = signal<number|null>(null);
 
