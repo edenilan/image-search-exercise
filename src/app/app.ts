@@ -20,6 +20,7 @@ import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {debounceTime} from 'rxjs';
 import {selectSearchHistoryState} from './search/search.selectors';
 import {SearchResultsComponent} from './search/search-results-component/search-results.component';
+import {getSuggestions} from './search/utils';
 
 @Component({
   selector: 'app-root',
@@ -41,16 +42,7 @@ export class App {
   protected readonly autocompleteSuggestions = computed(() => {
     const currentSearchTerm = this.debouncedSearchInputValue();
     const searchHistory = this.searchHistoryState();
-
-    if (currentSearchTerm == null || searchHistory == null) {
-      return [];
-    }
-    const suggestions = searchHistory.filter(previousSearchTerm =>
-      currentSearchTerm.length > 0
-      && previousSearchTerm.includes(currentSearchTerm)
-      && previousSearchTerm !== currentSearchTerm
-      && previousSearchTerm.length > 2
-    );
+    const suggestions = getSuggestions(currentSearchTerm, searchHistory);
 
     return suggestions;
   });
