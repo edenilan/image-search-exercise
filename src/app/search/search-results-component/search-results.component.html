@@ -5,9 +5,9 @@
   }
   <cdk-virtual-scroll-viewport itemSize="100">
     <div *cdkVirtualFor="let result of dataSourceService; trackBy: trackByResultId"  class="image-thumbnail-container">
-      <div (click)="onResultClicked(result)" class="single-result-container"
+      <div class="single-result-container"
            (mouseenter)="onMouseEnterResult(result)" (mouseleave)="onMouseLeaveResult()">
-        <img [src]="result.previewURL">
+        <img [src]="result.previewURL" (click)="onResultClicked(result)">
         <div class="extra-info">
           @if (hoveredResult() === result.id) {
             <div class="tags-container">

@@ -6,8 +6,7 @@ import {SearchService} from './search.service';
 import {of} from 'rxjs';
 import {SearchResultsResponse} from './search-results-response.type';
 import {Store} from '@ngrx/store';
-import {selectSearchState} from './search.selectors';
-import {SearchState} from './search.reducer';
+import {SearchState, selectSearchState} from './search.reducer';
 
 @Injectable()
 export class SearchEffects {
@@ -33,7 +32,8 @@ export class SearchEffects {
       ofType(moreResultsNeeded),
       withLatestFrom(this.store.select(selectSearchState)),
       filter(([, searchState]) => {
-        const hitsLeft = searchState.totalHits - searchState.results.length;
+        const numOfResults = searchState.ids.length;
+        const hitsLeft = searchState.totalHits - numOfResults;
         return hitsLeft > 0;
       }),
       switchMap(([, searchState]) => {
@@ -49,7 +49,8 @@ export class SearchEffects {
 }
 
 function getNextPageNumber(searchState: SearchState, resultsPerPage: number): number {
-  const currentPage = Math.floor(searchState.results.length / resultsPerPage);
+  const numOfResults = searchState.ids.length;
+  const currentPage = Math.floor(numOfResults / resultsPerPage);
 
   return currentPage + 1;
 }
