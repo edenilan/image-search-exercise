@@ -1,8 +1,8 @@
 import {Component, inject} from '@angular/core';
-import {ApiTokenService} from '../../../../api-token/api-token.service';
+import {ApiTokenService} from '../../../api-token/api-token.service';
 import {MatButtonModule} from '@angular/material/button';
 import {Store} from '@ngrx/store';
-import {apiTokenUpdated} from '../../../../api-token/api-token.actions';
+import {apiTokenUpdated} from '../../../api-token/api-token.actions';
 
 @Component({
   selector: 'error-state',

@@ -17,7 +17,7 @@
         <div class="extra-info">
           @if (hoveredResult() === result.id) {
             <div class="tags-container">
-              @for (tag of result.tags.split(','); track tag) {
+              @for (tag of result.tags | tagsStringToListPipe; track tag) {
                 <span class="capsule tag"> {{tag}} </span>
               }
             </div>

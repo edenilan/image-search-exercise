@@ -19,7 +19,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {debounceTime} from 'rxjs';
 import {selectSearchHistoryState} from './search/search.selectors';
-import {SearchResultsComponent} from './search/search-results-component/search-results.component';
+import {SearchResultsComponent} from './search/search-results/search-results.component';
 import {getSuggestions} from './search/utils';
 
 @Component({

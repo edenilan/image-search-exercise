@@ -9,7 +9,8 @@ import {ImageResultsDataSourceService} from '../../image-results-data-source.ser
 import {AnnotatedImageMetadata} from '../../image-metadata.type';
 import {Store} from '@ngrx/store';
 import {selectIsLoadingState, selectIsSearchErrorState} from '../search.selectors';
-import {ErrorStateComponent} from './error-state/error-state-component/error-state.component';
+import {ErrorStateComponent} from './error-state-component/error-state.component';
+import {TagsStringToListPipePipe} from './tags-string-to-list-pipe-pipe';
 
 @Component({
   selector: 'search-results',
@@ -17,7 +18,8 @@ import {ErrorStateComponent} from './error-state/error-state-component/error-sta
     CdkFixedSizeVirtualScroll,
     CdkVirtualForOf,
     CdkVirtualScrollViewport,
-    ErrorStateComponent
+    ErrorStateComponent,
+    TagsStringToListPipePipe
   ],
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.scss',
